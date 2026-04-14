@@ -1,3 +1,5 @@
+import { auth } from "@clerk/nextjs/server"
+import { redirect } from "next/navigation"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import {
@@ -11,10 +13,18 @@ import {
   Star,
   CheckCircle
 } from "lucide-react"
+import Header from "@/components/Header"
 
-export default function HomePage() {
+export default async function HomePage() {
+  const { userId } = await auth()
+
+  if (userId) {
+    redirect("/dashboard")
+  }
+
   return (
     <div className="min-h-screen bg-linear-to-r from-gray-50 to-gray-100">
+      <Header isFixed={true} />
       <section className="px-4 lg:px-8 lg:py-32">
         <div className="max-w-7xl mx-auto">
           <div className="text-center space-y-8">
